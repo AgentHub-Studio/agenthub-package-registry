@@ -1,0 +1,18 @@
+services:
+  agenthub-package-registry:
+    build: .
+    container_name: agenthub-package-registry
+    restart: unless-stopped
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    networks:
+      agenthub-shared-net:
+        aliases:
+          - agenthub.package-registry.internal
+
+networks:
+  agenthub-shared-net:
+    external: true
+    name: agenthub-shared-net
