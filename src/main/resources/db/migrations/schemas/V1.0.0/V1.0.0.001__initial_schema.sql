@@ -6,7 +6,7 @@
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS package_registry (
-    id                  UUID        PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id                  UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
     name                VARCHAR(200) NOT NULL,
     slug                VARCHAR(200) NOT NULL UNIQUE,
     namespace           VARCHAR(100),
@@ -31,7 +31,7 @@ CREATE INDEX IF NOT EXISTS idx_package_namespace  ON package_registry (namespace
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS package_version (
-    id               UUID        PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id               UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
     package_id       UUID        NOT NULL REFERENCES package_registry (id) ON DELETE CASCADE,
     version          VARCHAR(50) NOT NULL,
     manifest_json    JSONB       NOT NULL,
@@ -51,7 +51,7 @@ CREATE INDEX IF NOT EXISTS idx_pkg_version_published ON package_version (publish
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS package_dependency (
-    id                   UUID        PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id                   UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
     package_version_id   UUID        NOT NULL REFERENCES package_version (id) ON DELETE CASCADE,
     dependency_type      VARCHAR(50) NOT NULL,
     dependency_slug      VARCHAR(200) NOT NULL,
@@ -67,7 +67,7 @@ CREATE INDEX IF NOT EXISTS idx_pkg_dep_slug    ON package_dependency (dependency
 -- =============================================================================
 
 CREATE TABLE IF NOT EXISTS package_asset (
-    id                 UUID        PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id                 UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
     package_version_id UUID        NOT NULL REFERENCES package_version (id) ON DELETE CASCADE,
     asset_type         VARCHAR(50) NOT NULL,
     asset_path         TEXT        NOT NULL,
