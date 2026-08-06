@@ -18,4 +18,6 @@ ENV JAVA_OPTS="-server \
 
 EXPOSE 8084
 
+USER 10001:10001
+
 ENTRYPOINT exec java $JAVA_OPTS -jar /opt/app.jar
